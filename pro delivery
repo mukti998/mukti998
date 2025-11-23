@@ -1,0 +1,128 @@
+style="color:#666;">Estimated arrival: 35 mins</p>
+        </div>
+        
+        <div class="status-steps">
+            <div class="step active">
+                <div class="step-icon"><i class="fas fa-receipt"></i></div>
+                <div>
+                    <strong>Order Accepted</strong><br>
+                    <small>Restaurant is reviewing</small>
+                </div>
+            </div>
+            <div class="step active">
+                <div class="step-icon"><i class="fas fa-fire"></i></div>
+                <div>
+                    <strong>Preparing</strong><br>
+                    <small>In the kitchen</small>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-motorcycle"></i></div>
+                <div>
+                    <strong>On the way</strong><br>
+                    <small>Driver assigned</small>
+                </div>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-home"></i></div>
+                <div>
+                    <strong>Delivered</strong><br>
+                    <small>Enjoy your meal!</small>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn btn-outline" onclick="goHome()">Go Back Home</button>
+    </div>
+
+    <!-- --- 6. JAVASCRIPT LOGIC --- -->
+    <script>
+        // --- MOCK DATA ---
+        const restaurants = [
+            {
+                id: 1,
+                name: "Variety Lounge",
+                image: "https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=500&q=80",
+                rating: 4.5,
+                type: "Burgers & Pizza",
+                time: "25-35 min"
+            },
+            {
+                id: 2,
+                name: "Jimma Central Hotel",
+                image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&q=80",
+                rating: 4.8,
+                type: "Traditional • Tibs",
+                time: "30-45 min"
+            },
+            {
+                id: 3,
+                name: "Kaffa House",
+                image: "https://images.unsplash.com/photo-1497935586351-b67a49e012bf?w=500&q=80",
+                rating: 4.2,
+                type: "Coffee & Pastry",
+                time: "15-20 min"
+            },
+            {
+                id: 4,
+                name: "Sour Cafe",
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&q=80",
+                rating: 4.6,
+                type: "Pizza • Fast Food",
+                time: "20-30 min"
+            }
+        ];
+
+        const menus = {
+            1: [ // Variety
+                { id: 101, name: "Special Burger", price: 250, desc: "Double beef with cheese", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200" },
+                { id: 102, name: "Chicken Pizza", price: 400, desc: "Large size with olives", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=200" }
+            ],
+            2: [ // Central
+                { id: 201, name: "Shekla Tibs", price: 600, desc: "Spicy lamb with injera", img: "https://images.unsplash.com/photo-1604329760661-e71dc831d507?w=200" },
+                { id: 202, name: "Beyaynetu", price: 180, desc: "Fasting combo", img: "https://images.unsplash.com/photo-1505253149613-112d21d9f6a9?w=200" }
+            ],
+            3: [ // Kaffa
+                { id: 301, name: "Macchiato", price: 40, desc: "Strong Jimma coffee", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=200" },
+                { id: 302, name: "Tiramisu", price: 80, desc: "Sweet cake", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=200" }
+            ],
+            4: [ // Sour
+                { id: 401, name: "Fasting Pizza", price: 350, desc: "Vegetables only", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=200" },
+                { id: 402, name: "Club Sandwich", price: 200, desc: "Toast with fries", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=200" }
+            ]
+        };
+
+        // --- STATE MANAGEMENT ---
+        let cart = [];
+        let currentPayment = null;
+
+        // --- INITIALIZATION ---
+        window.onload = function() {
+            renderRestaurants();
+        };
+
+        // --- NAVIGATION ---
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active-screen'));
+            document.getElementById(screenId).classList.add('active-screen');
+            window.scrollTo(0,0);
+        }
+
+        function goHome() {
+            showScreen('home-screen');
+        }
+
+        function showCart() {
+            renderCart();
+            showScreen('cart-screen');
+        }
+
+        function goBackToMenu() {
+            if(document.getElementById('rest-name').innerText !== "Restaurant Name") {
+                showScreen('menu-screen');
+            } else {
+                goHome();
+            }
+        }
+
+        function showCheckout() {
